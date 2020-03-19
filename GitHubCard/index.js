@@ -2,14 +2,17 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/elijah-atkins')
-  .then(response => {
-    const elijahAtkins = response.data;
-    console.log(elijahAtkins)
-  })
-  .catch( error =>{
-    console.log('Error: ', error)
-  })
+
+
+// const elijahAtkins = async () => {
+//   try{
+//     return await axios.get('https://api.github.com/users/elijah-atkins')
+//   }catch (error){
+//     console.error(error)
+//   }
+// }
+
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -52,7 +55,8 @@ const followersArray = [];
 </div>
 
 */
-const createCard =(object) => {
+
+const createCard = (object) => {
   //elements
   const card = document.createElement('div')
   const picture = document.createElement('img')
@@ -66,11 +70,36 @@ const createCard =(object) => {
   const following = document.createElement('p')
   const bio = document.createElement('p')
 
-
+//setting up card parent child structure
   profile.append(profileLink)
-  cardInfo.append()
+  cardInfo.append(name, username, location, profile, profileLink, followers, following, bio)
   card.append(picture, cardInfo)
+
+  //apply classes and enabling styles
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  username.classList.add('username')
+
+  picture.src = object.avatar_url;
+  name.textContent = object.name;
+  username.textContent = object.login;
+  location.textContent = object.location;
+  profile.textContent = `Profile: `
+  profileLink.textContent = object.html_url;
+  profileLink.href = object.html_url;
+  followers.textContent = `Followers: ${object.followers}`
+  following.textContent = `Following: ${object.following}`
+  bio.textContent = `Bio: ${object.bio}`
+
+
+
+
+  //return populated card
+  return card;
 }
+
+
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
@@ -78,3 +107,12 @@ const createCard =(object) => {
   luishrd
   bigknell
 */
+
+const cards = document.querySelector('.cards');
+axios.get('https://api.github.com/users/elijah-atkins')
+  .then(response => {
+    cards.appendChild(createCard(response.data))
+  })
+  .catch( error =>{
+    console.log('Error: ', error)
+  })
