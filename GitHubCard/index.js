@@ -94,6 +94,7 @@ const createCard = (object) => {
 
 
 
+
   //return populated card
   return card;
 }
@@ -123,3 +124,7 @@ addGithubCard('elijah-atkins')
 followersArray.forEach(follower => {
   addGithubCard(follower)
 })
+
+
+
+
